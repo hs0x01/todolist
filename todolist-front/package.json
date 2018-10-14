@@ -19,6 +19,7 @@
     "gulp-typescript": "latest",
     "gulp-sourcemaps": "latest",
     "@types/jquery": "latest",
-    "@types/knockout": "latest"
+    "@types/knockout": "latest",
+    "@types/jasmine": "latest"
   }
 }

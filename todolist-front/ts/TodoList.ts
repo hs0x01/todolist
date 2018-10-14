@@ -1,6 +1,6 @@
 class TodoList {
 
-    static readonly MAX_CONTENT_LENGTH = 30;
+    static readonly MAX_CONTENT_LENGTH = 25;
 
     todoList: KnockoutObservableArray<Todo> = ko.observableArray([]);
 

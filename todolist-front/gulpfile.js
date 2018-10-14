@@ -17,10 +17,11 @@ const fs        = require('fs');
 // ----------------------------------------------------------------------------
 const JS_OUTPUT_PATH  = 'js/';
 const CSS_OUTPUT_PATH = 'css/';
-const TODOLIST_JS         = 'todolist.js';
+const TODOLIST_JS     = 'todolist.js';
 const LESS_FILES      = 'less/**/*.less';
 
 const TS_FILES = 'ts/**/*.ts';
+const TS_TEST_FILES = 'ts/test/**/*.ts';
 					 
 const TS_CONFIG_NAME   = 'tsconfig.json';
 
@@ -36,7 +37,10 @@ const TS_COMPILE_SETTINGS = gulpTs.createProject(
 // ----------------------------------------------------------------------------
 
 // TypeScriptのコンパイル
-gulp.task('ts', compileTs);
+gulp.task('ts', function() { compileTs(null, false) });
+
+// TypeScript(テスト付き)のコンパイル
+gulp.task('test', function() { compileTs(null, true) });
 
 // LESSのコンパイル
 gulp.task('less', compileLess);
@@ -46,11 +50,16 @@ gulp.task('less', compileLess);
 // ----------------------------------------------------------------------------
 
 // TypeScriptをコンパイルする関数
-function compileTs() {
+function compileTs(callback, isTest) {
 
-	writeInfMsg('TypeScriptのコンパイルを開始しました。');
+    writeInfMsg('TypeScriptのコンパイルを開始しました。(テスト = ' + isTest + ')');
+    
+    let tsFiles = [TS_FILES];
+    if (!isTest) {
+        tsFiles.push('!' + TS_TEST_FILES);
+    }
 
-    let result = gulp.src(TS_FILES)
+    let result = gulp.src(tsFiles)
         .pipe(srcMaps.init())
         .pipe(plumber({
             'errorHandler': function (error) {
