@@ -26,23 +26,23 @@ public class TodoListController {
 		return "todolist";
 	}
 	
-	@RequestMapping(path = "/todolist",
+	@RequestMapping(
+			path = "/todolist",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public Object save(@RequestBody List<Todo> todoList, HttpServletResponse response) {
-		Map<String, Object> responseJson = new HashMap<>();
 		try {
 			todoListService.save(todoList);
+			return new HashMap<>();
 		} catch (Exception e) {
-			e.printStackTrace();
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return handleException(e, response);
 		}
-		return responseJson;
 	}
 	
-	@RequestMapping(path = "/todolist",
+	@RequestMapping(
+			path = "/todolist",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
@@ -50,9 +50,23 @@ public class TodoListController {
 		try {
 			return todoListService.findAll();
 		} catch (Exception e) {
-			e.printStackTrace();
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			return new HashMap<>();
+			return handleException(e, response);
 		}
+	}
+	
+	static Map<String, String> handleException(Exception e, HttpServletResponse response) {
+		
+		Map<String, String> error = new HashMap<>();
+		
+		error.put("error", "system error.");
+		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		
+		if (e instanceof IllegalArgumentException) {
+			IllegalArgumentException iae = (IllegalArgumentException) e;
+			error.put("error", iae.getMessage());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		
+		return error;
 	}
 }

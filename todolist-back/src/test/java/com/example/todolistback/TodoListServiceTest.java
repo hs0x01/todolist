@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -27,6 +28,206 @@ public class TodoListServiceTest {
 	
 	@Mock
 	private TodoListRepository todoListRepository;
+	
+	@Test
+	public void validateSave_TODOがnull() {
+		
+		try {
+			Todo todo = null;
+			todoListService.validateSave(todo);
+			fail();
+		} catch (IllegalArgumentException iae) {
+			assertThat(iae.getMessage(), is("Todo is null."));
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void validateSave_IDが0以下() {
+		
+		Todo todo = new Todo();
+		todo.setId(0);
+		todo.setPriority(Priority.HIGH.getValue());
+		todo.setStatus(Status.DOING.getValue());
+		todo.setContent("あああああああああああああああああああああああああ");
+		
+		try {
+			todoListService.validateSave(todo);
+			fail();
+		} catch (IllegalArgumentException iae) {
+			assertThat(iae.getMessage(), is("Todo#id is invalid."));
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void validateSave_優先度がnull() {
+		
+		Todo todo = new Todo();
+		todo.setId(1000);
+		todo.setPriority(null);
+		todo.setStatus(Status.DOING.getValue());
+		todo.setContent("あああああああああああああああああああああああああ");
+		
+		try {
+			todoListService.validateSave(todo);
+			fail();
+		} catch (IllegalArgumentException iae) {
+			assertThat(iae.getMessage(), is("Todo#priority is invalid."));
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void validateSave_優先度がPriorityで定義されていない値() {
+		
+		Todo todo = new Todo();
+		todo.setId(1000);
+		todo.setPriority(99);
+		todo.setStatus(Status.DOING.getValue());
+		todo.setContent("あああああああああああああああああああああああああ");
+		
+		try {
+			todoListService.validateSave(todo);
+			fail();
+		} catch (IllegalArgumentException iae) {
+			assertThat(iae.getMessage(), is("Todo#priority is invalid."));
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void validateSave_ステータスがnull() {
+		
+		Todo todo = new Todo();
+		todo.setId(1000);
+		todo.setPriority(Priority.HIGH.getValue());
+		todo.setStatus(null);
+		todo.setContent("あああああああああああああああああああああああああ");
+		
+		try {
+			todoListService.validateSave(todo);
+			fail();
+		} catch (IllegalArgumentException iae) {
+			assertThat(iae.getMessage(), is("Todo#status is invalid."));
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void validateSave_ステータスがStatusで定義されていない値() {
+		
+		Todo todo = new Todo();
+		todo.setId(1000);
+		todo.setPriority(Priority.HIGH.getValue());
+		todo.setStatus(99);
+		todo.setContent("あああああああああああああああああああああああああ");
+		
+		try {
+			todoListService.validateSave(todo);
+			fail();
+		} catch (IllegalArgumentException iae) {
+			assertThat(iae.getMessage(), is("Todo#status is invalid."));
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void validateSave_内容入力がnull() {
+
+		Todo todo = new Todo();
+		todo.setId(1000);
+		todo.setPriority(Priority.HIGH.getValue());
+		todo.setStatus(Status.DOING.getValue());
+		todo.setContent(null);
+		
+		try {
+			todoListService.validateSave(todo);
+			fail();
+		} catch (IllegalArgumentException iae) {
+			assertThat(iae.getMessage(), is("Todo#content is invalid."));
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void validateSave_内容入力が空() {
+		
+		Todo todo = new Todo();
+		todo.setId(1000);
+		todo.setPriority(Priority.HIGH.getValue());
+		todo.setStatus(Status.DOING.getValue());
+		todo.setContent("");
+		
+		try {
+			todoListService.validateSave(todo);
+			fail();
+		} catch (IllegalArgumentException iae) {
+			assertThat(iae.getMessage(), is("Todo#content is invalid."));
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void validateSave_内容入力が上限を超える() {
+		
+		Todo todo = new Todo();
+		todo.setId(1000);
+		todo.setPriority(Priority.HIGH.getValue());
+		todo.setStatus(Status.DOING.getValue());
+		todo.setContent("aaaaaaaaaaaaaaaaaaaaaaaaaa");
+		
+		try {
+			todoListService.validateSave(todo);
+			fail();
+		} catch (IllegalArgumentException iae) {
+			assertThat(iae.getMessage(), is("Todo#content is invalid."));
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void validateSave_入力が正しい() {
+		
+		Todo todo = new Todo();
+		todo.setId(1000);
+		todo.setPriority(Priority.HIGH.getValue());
+		todo.setStatus(Status.DOING.getValue());
+		todo.setContent("あああああああああああああああああああああああああ");
+		
+		try {
+			todoListService.validateSave(todo);
+			assertTrue(true);
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void validateSave_入力が正しい_IDがnull() {
+		
+		Todo todo = new Todo();
+		todo.setId(null);
+		todo.setPriority(Priority.HIGH.getValue());
+		todo.setStatus(Status.DOING.getValue());
+		todo.setContent("あああああああああああああああああああああああああ");
+		
+		try {
+			todoListService.validateSave(todo);
+			assertTrue(true);
+		} catch (Exception e) {
+			fail();
+		}
+	}
 	
 	@Test
 	@SuppressWarnings("unchecked")

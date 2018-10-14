@@ -1,6 +1,6 @@
 package com.example.todolistback;
 
-public enum Status {
+public enum Status implements IReturnValue<Integer> {
 	
 	TODO(0),
 	DOING(1),
@@ -12,22 +12,8 @@ public enum Status {
 		this.value = value;
 	}
 
-	public int getValue() {
-		return value;
-	}
-	
-	public static Status of(Integer value) {
-		
-		if (value == null) {
-			return null;
-		}
-		
-		for (Status status : values()) {
-			if (status.value == value.intValue()) {
-				return status;
-			}
-		}
-		
-		return null;
+	@Override
+	public Integer getValue() {
+		return this.value;
 	}
 }

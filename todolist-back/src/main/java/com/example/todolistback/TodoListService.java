@@ -21,22 +21,29 @@ public class TodoListService {
 		}
 		
 		for (Todo todo : todoList) {
-			if (todo == null) {
-				throw new IllegalArgumentException("Todo is null.");
-			}
-			if (todo.getId() != null && todo.getId() <= 0) {
-				throw new IllegalArgumentException("Todo#id is invalid.");
-			}
-			if (todo.getPriority() == null || Priority.of(todo.getPriority()) == null) {
-				throw new IllegalArgumentException("Todo#priority is invalid.");
-			}
-			if (todo.getStatus() == null || Status.of(todo.getStatus()) == null) {
-				throw new IllegalArgumentException("Todo#status is invalid.");
-			}
-			if (todo.getContent() == null || todo.getContent().length() == 0
-					|| todo.getContent().length() > Todo.MAX_CONTENT_LENGTH) {
-				throw new IllegalArgumentException("Todo#content is invalid.");
-			}
+			validateSave(todo);
+		}
+	}
+	
+	public void validateSave(Todo todo) {
+		
+		if (todo == null) {
+			throw new IllegalArgumentException("Todo is null.");
+		}
+		if (todo.getId() != null && todo.getId() <= 0) {
+			throw new IllegalArgumentException("Todo#id is invalid.");
+		}
+		if (todo.getPriority() == null
+				|| Util.getEnum(Priority.class, todo.getPriority()) == null) {
+			throw new IllegalArgumentException("Todo#priority is invalid.");
+		}
+		if (todo.getStatus() == null
+				|| Util.getEnum(Status.class, todo.getStatus()) == null) {
+			throw new IllegalArgumentException("Todo#status is invalid.");
+		}
+		if (todo.getContent() == null || todo.getContent().length() == 0
+				|| todo.getContent().length() > Todo.MAX_CONTENT_LENGTH) {
+			throw new IllegalArgumentException("Todo#content is invalid.");
 		}
 	}
 	
