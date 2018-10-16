@@ -1,56 +1,60 @@
 class TodoListApiCall {
 
-    static get(callback: (todoList: TodoList) => void): void {
+    static get(): Promise<TodoList> {
 
-        
-        fetch('/todolist')
-            .then(response => response.json())
-            .then((json: Array<any>) => {
+        return new Promise<TodoList>((resolve, reject) => {
 
-                let list: Array<Todo> = [];
+            fetch('/todolist')
+                .then(response => response.json())
+                .then((json: Array<any>) => {
 
-                json.forEach(todoJson => {
+                    let list: Array<Todo> = [];
 
-                    let todo: Todo = new Todo();
-                    todo.priority(todoJson.priority);
-                    todo.status(todoJson.status);
-                    todo.content(todoJson.content);
+                    json.forEach(todoJson => {
 
-                    list.push(todo);
-                });
+                        let todo: Todo = new Todo();
+                        todo.priority(todoJson.priority);
+                        todo.status(todoJson.status);
+                        todo.content(todoJson.content);
 
-                callback(new TodoList(list));
-            })
-            .catch(error => console.log(error));
+                        list.push(todo);
+                    });
+
+                    resolve(new TodoList(list));
+                })
+                .catch(error => reject(error));
+        });
     }
 
-    static save(todoList: TodoList, callback: () => void): void {
+    static save(todoList: TodoList): Promise<any> {
 
+        return new Promise((resolve, reject) => {
 
-        let todoListJson: Array<any> = [];
-        todoList.todoList().forEach(todo => {
+            let todoListJson: Array<any> = [];
+            todoList.todoList().forEach(todo => {
 
-            let todoJson = {
-                priority: todo.priority(),
-                status: todo.status(),
-                content: todo.content()
-            };
+                let todoJson = {
+                    priority: todo.priority(),
+                    status: todo.status(),
+                    content: todo.content()
+                };
 
-            todoListJson.push(todoJson);
+                todoListJson.push(todoJson);
+            });
+
+            fetch('/todolist', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json;charset=UTF-8',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                body: JSON.stringify(todoListJson)
+            })
+            .then(response => response.json())
+            .then((json: any) => {
+                resolve();
+            })
+            .catch(error => reject(error));
         });
-
-        fetch('/todolist', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json;charset=UTF-8',
-                'Content-Type': 'application/json;charset=UTF-8'
-            },
-            body: JSON.stringify(todoListJson)
-        })
-        .then(response => response.json())
-        .then((json: any) => {
-            callback();
-        })
-        .catch(error => console.log(error));
     }
 }

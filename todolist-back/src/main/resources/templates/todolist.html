@@ -10,12 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
     <script src="/js/todolist.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var viewModel = new TodoListViewModel();
-            viewModel.init(function() {
-                ko.applyBindings(viewModel);
-            });
-        });
+    	TodoListViewHelper.init();
     </script>
 </head>
 <body>
@@ -80,6 +75,11 @@
     </div>
 
     <div id="overlay" data-bind="style: { 'display': isOverlay() ? 'block' : 'none' }"></div>
+    
+    <div id="dialog" data-bind="style: { 'display': isShowDialog() ? 'block' : 'none' }">
+		<div data-bind="text: dialogMessage"></div>
+		<button data-bind="event: { click: function() { closeDialog(); } }">OK</button>
+	</div>
 
 </body>
 </html>

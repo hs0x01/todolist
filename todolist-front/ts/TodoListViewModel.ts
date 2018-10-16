@@ -22,6 +22,10 @@ class TodoListViewModel {
 
     isShowStatusMenu: KnockoutObservable<boolean> = ko.observable(false);
 
+    isShowDialog: KnockoutObservable<boolean> = ko.observable(false);
+
+    dialogMessage: KnockoutObservable<string> = ko.observable('');
+
     private _todoList: TodoList;
 
     init(callback: () => void): void {
@@ -34,12 +38,16 @@ class TodoListViewModel {
         this.statusDataList.push(new SelectMenuData(Status.DOING, '作業中', 'fa-spinner status-doing'));
         this.statusDataList.push(new SelectMenuData(Status.DONE, '完了', 'fa-check-circle status-done'));
 
-        TodoListApiCall.get((todoList) => {
-            this._todoList = todoList;
-            this.todoList = todoList.todoList;
-
-            callback();
-        });
+        TodoListApiCall.get()
+            .then((todoList) => {
+                this._todoList = todoList;
+                this.todoList = todoList.todoList;
+                callback();
+            })
+            .catch((error) => {
+                this.showDialog('TODOリスト取得に失敗しました。');
+                callback();
+            });
     }
 
     showTodoInput(targetIdx: number = -1): void {
@@ -162,8 +170,24 @@ class TodoListViewModel {
 
     save() {
 
-        TodoListApiCall.save(this._todoList, () => {
-            console.log('OK!');
-        })
+        TodoListApiCall.save(this._todoList)
+            .then(() => {
+                this.showDialog('保存しました。');
+            })
+            .catch(() => {
+                this.showDialog('保存に失敗しました。');
+            });
+    }
+
+    showDialog(message: string) {
+        this.isShowDialog(true);
+        this.dialogMessage(message);
+        this.isOverlay(true);
+    }
+
+    closeDialog() {
+        this.isShowDialog(false);
+        this.dialogMessage('');
+        this.isOverlay(false);
     }
 }
