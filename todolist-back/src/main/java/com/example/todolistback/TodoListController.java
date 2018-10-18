@@ -15,17 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+// リクエストを受け付けるクラスです。
 @Controller
 public class TodoListController {
 	
 	@Autowired
 	private TodoListService todoListService;
 	
+	// todolist.htmlファイルを返します。
 	@GetMapping
 	public String index() {
 		return "todolist";
 	}
 	
+	// TODOリストをtodolistテーブルに保存します。
 	@RequestMapping(
 			path = "/todolist",
 			method = RequestMethod.POST,
@@ -41,6 +44,7 @@ public class TodoListController {
 		}
 	}
 	
+	// TODOリストをtodolistテーブルから取得して返します。
 	@RequestMapping(
 			path = "/todolist",
 			method = RequestMethod.GET,
@@ -54,6 +58,7 @@ public class TodoListController {
 		}
 	}
 	
+	// 例外を処理します。
 	static Map<String, String> handleException(Exception e, HttpServletResponse response) {
 		
 		Map<String, String> error = new HashMap<>();

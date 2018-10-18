@@ -5,6 +5,7 @@ public final class Util {
 	private Util() {
 	}
 	
+	// enumClassから、valueに合致するenum定数を返します。
 	public static <T, E extends Enum<E> & IReturnValue<T>> E getEnum(Class<E> enumClass, T value) {
 			
 		E[] enumConstants = enumClass.getEnumConstants();

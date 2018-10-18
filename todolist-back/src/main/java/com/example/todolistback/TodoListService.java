@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+// TODOリストのメイン処理を記述したクラスです。
 @Service
 public class TodoListService {
 	
+	// todolistテーブルにアクセスするクラスです。
 	@Autowired
 	private TodoListRepository todoListRepository;
 	
+	// TODOリストを保存してよいかチェックします。
 	public void validateSave(List<Todo> todoList) {
 		
 		if (todoList == null) {
@@ -25,6 +28,7 @@ public class TodoListService {
 		}
 	}
 	
+	// TODOを保存してよいかチェックします。
 	public void validateSave(Todo todo) {
 		
 		if (todo == null) {
@@ -47,6 +51,7 @@ public class TodoListService {
 		}
 	}
 	
+	// TODOリストを保存します。
 	@Transactional
 	public void save(List<Todo> todoList) {
 		
@@ -80,6 +85,7 @@ public class TodoListService {
 		}
 	}
 	
+	// TODOリストをtodolistテーブルから取得して返します。
 	@Transactional(readOnly = true)
 	public List<Todo> findAll() {
 		return todoListRepository.findAll();

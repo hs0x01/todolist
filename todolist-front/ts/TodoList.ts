@@ -1,7 +1,10 @@
+// TODOデータのリストを表すクラスです。
 class TodoList {
 
+    // TODOの最大入力文字数
     static readonly MAX_CONTENT_LENGTH = 25;
 
+    // TODOリスト
     todoList: KnockoutObservableArray<Todo> = ko.observableArray([]);
 
     constructor(todoList: Array<Todo>) {
@@ -9,6 +12,7 @@ class TodoList {
         this.todoList(todoList);
     }
 
+    // TODOデータを追加できるかチェックします。
     canAdd(priority: Priority, status: Status, content: string): boolean {
         return (!Util.isEmpty(priority)
             && !Util.isEmpty(status)
@@ -16,6 +20,7 @@ class TodoList {
             && content.length <= TodoList.MAX_CONTENT_LENGTH);
     }
 
+    // TODOデータを更新できるかチェックします。
     canUpdate(priority: Priority, status: Status, content: string, idx: number): boolean {
         return (!Util.isEmpty(priority)
             && !Util.isEmpty(status)
@@ -24,10 +29,12 @@ class TodoList {
             && idx >= 0);
     }
 
+    // TODOデータを削除できるかチェックします。
     canDelete(idx: number): boolean {
         return idx >= 0;
     }
 
+    // TODOデータを追加します。
     add(priority: Priority, status: Status, content: string): void {
 
         if (!this.canAdd(priority, status, content)) {
@@ -48,6 +55,7 @@ class TodoList {
         this.todoList(todoList);
     }
 
+    // TODOデータを更新します。
     update(priority: Priority, status: Status, content: string, idx: number): void {
 
         if (!this.canUpdate(priority, status, content, idx)) {
@@ -68,6 +76,7 @@ class TodoList {
         this.todoList(todoList);
     }
 
+    // TODOデータを削除します。
     delete(idx: number): void {
 
         if (!this.canDelete(idx)) {
@@ -77,6 +86,7 @@ class TodoList {
         this.todoList.splice(idx, 1);
     }
 
+    // TODOリストを優先度、ステータスの昇順に並び替えます。
     sort(todoList: Array<Todo>): void {
 
         todoList.sort((a, b) => {

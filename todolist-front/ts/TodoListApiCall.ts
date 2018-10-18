@@ -1,5 +1,6 @@
 class TodoListApiCall {
 
+    // TODOリストをサーバーから取得します。
     static get(): Promise<TodoList> {
 
         return new Promise<TodoList>((resolve, reject) => {
@@ -26,6 +27,7 @@ class TodoListApiCall {
         });
     }
 
+    // TODOリストを保存するため、サーバーに送信します。
     static save(todoList: TodoList): Promise<any> {
 
         return new Promise((resolve, reject) => {

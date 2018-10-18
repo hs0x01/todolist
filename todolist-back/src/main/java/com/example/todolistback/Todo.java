@@ -6,20 +6,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+// todolistテーブルの1行分の情報を詰めるデータクラスです。
 @Entity
 @Table(name = "todolist")
 public class Todo {
 	
+	// TODOの最大入力文字数
 	public static final int MAX_CONTENT_LENGTH = 25;
 	
+	// テーブル行を特定するID
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	// 優先度
 	private Integer priority;
 	
+	// ステータス
 	private Integer status;
 	
+	// 入力されたTODO
 	private String content;
 	
 	public Todo() {
