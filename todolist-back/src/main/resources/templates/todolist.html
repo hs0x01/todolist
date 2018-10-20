@@ -10,7 +10,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
     <script src="/js/todolist.js"></script>
     <script>
-    	TodoListViewHelper.init();
+	    document.addEventListener('DOMContentLoaded', () => {
+	        let viewModel = new TodoListViewModel();
+	        viewModel.init(function() {
+	            ko.applyBindings(viewModel);
+	        });
+	    });
+	    
     </script>
 </head>
 <body>
@@ -30,14 +36,14 @@
             <div class="fa priority" aria-hidden="true"
                 data-bind="text: findPriority().label,
                            css : findPriority().cls,
-                           event: { 'click': showPriorityMenu }"></div>
+                           event: { 'click': function() { showPriorityMenu(true) } }"></div>
             <div class="fa status" aria-hidden="true"
                 data-bind="text: findStatus().label,
                            css : findStatus().cls,
-                           event: { 'click': showStatusMenu }"></div>
+                           event: { 'click': function() { showStatusMenu(true) } }"></div>
             <input type="text" class="content" data-bind="textInput: inputContent" />
 
-            <div id="priority-list" data-bind="style: { 'display': isShowPriorityMenu() ? 'block' : 'none' },
+            <div id="priority-list" data-bind="style: { 'display': showPriorityMenu() ? 'block' : 'none' },
                                                foreach: priorityDataList">
                 <div class="fa fa-exclamation-circle priority" aria-hidden="true"
                     data-bind="event: { click: function() { $parent.selectPriority(val); } },
@@ -45,7 +51,7 @@
                                css  : $data.cls"></div>
             </div>
 
-            <div id="status-list" data-bind="style: { 'display': isShowStatusMenu() ? 'block' : 'none' },
+            <div id="status-list" data-bind="style: { 'display': showStatusMenu() ? 'block' : 'none' },
                                              foreach: statusDataList">
                 <div class="fa status" aria-hidden="true"
                     data-bind="event: { click: function() { $parent.selectStatus(val); } },

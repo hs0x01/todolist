@@ -1,3 +1,4 @@
+// TODOリストサーバーAPIを呼び出すクラスです。
 class TodoListApiCall {
 
     // TODOリストをサーバーから取得します。
