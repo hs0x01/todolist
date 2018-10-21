@@ -6,10 +6,12 @@ body {
     color: #000000;
 }
 
+// タイトル
 #todo-title {
     text-align: center;
 }
 
+// 疑似クラスミックスイン
 .pseudo-class-mixin {
     &:hover {
         cursor: pointer;
@@ -20,40 +22,48 @@ body {
     }
 }
 
+// 優先度ミックスイン
 .priority-mixin {
     .priority {
         transform: translateY(-50%);
         .pseudo-class-mixin;
     }
 
+    // 優先度-高
     .priority-high {
         color: #ff0000;
     }
 
+    // 優先度-中
     .priority-middle {
         color: #D7DF01;
     }
 
+    // 優先度-低
     .priority-low {
         color: #0095d9;
     }
 }
 
+// ステータスミックスイン
 .status-mixin {
     .status {
         transform: translateY(-50%);
         .pseudo-class-mixin;
     }
 
+    // ステータス-作業中
     .status-doing {
         color: #D7DF01;
     }
 
+    // ステータス-完了
     .status-done {
         color: #00cc00;
     }
 }
 
+// TODO行ミックスイン
 .todo-mixin {
     .todo {
         position: relative;
@@ -66,6 +76,7 @@ body {
 
         .priority-mixin;
 
+        // 優先度
         .priority {
             position: absolute;
             left: 10px;
@@ -74,12 +85,14 @@ body {
 
         .status-mixin;
 
+        // ステータス
         .status {
             position: absolute;
             left: 50px;
             top: 50%;
         }
 
+        // TODO内容
         .content {
             position: absolute;
             left: 90px;
@@ -93,6 +106,7 @@ body {
             transform: translateY(-50%);
         }
         
+        // 削除ボタン
         .delete {
             position: absolute;
             right: 10px;
@@ -103,6 +117,7 @@ body {
     }
 }
 
+// 追加ボタンと保存ボタンが配置されているブロック
 #todo-add-save-block {
     position: absolute;
     top: 80px;
@@ -113,15 +128,18 @@ body {
     font-size: 36px;
 }
 
+// 追加ボタン
 #todo-add {
     .pseudo-class-mixin;
 }
 
+// 保存ボタン
 #todo-list-save {
     margin-left: 50px;
     .pseudo-class-mixin;
 }
 
+// TODO入力部
 #todo-input {
     position: absolute;
     top: 0;
@@ -190,7 +208,8 @@ body {
             background: #ffffff;
             border: solid 1px #000000;
         }
-        
+
+        // 完了ボタン
         .finish {
             position: absolute;
             right: 10px;
@@ -206,6 +225,7 @@ body {
     }
 }
 
+// TODOリスト
 #todo-list {
     position: absolute;
     top: 150px;
@@ -220,6 +240,7 @@ body {
     .todo-mixin;
 }
 
+// メッセージダイアログ
 #dialog {
     position: fixed;
     top: 0;
@@ -242,6 +263,7 @@ body {
     }
 }
 
+// ダイアログ表示時の薄暗い背景
 #overlay {
     position: fixed;
     top: 0;

@@ -92,34 +92,34 @@
 	<div id="todo-list" data-bind="foreach: todoList">
 		<div class="todo"
 			data-bind="event: { 'click': function() { $parent.showTodoInput($index()) } }">
-			
+
 			<!-- 優先度 -->
 			<div class="fa fa-exclamation-circle priority" aria-hidden="true"
 				data-bind="css: { 'priority-high'  : priority() === Priority.HIGH,
                                   'priority-middle': priority() === Priority.MIDDLE,
                                   'priority-low'   : priority() === Priority.LOW }"></div>
-             
-             <!-- ステータス -->
+
+			<!-- ステータス -->
 			<div class="fa status" aria-hidden="true"
 				data-bind="css: { 'status-todo'                : status() === Status.TODO,
                                   'fa-spinner status-doing'    : status() === Status.DOING,
                                   'fa-check-circle status-done': status() === Status.DONE }"></div>
-             
-             <!-- TODO内容 -->
+
+			<!-- TODO内容 -->
 			<div class="content">
 				<span data-bind="text: content"></span>
 			</div>
-			
+
 			<!-- 削除ボタン -->
 			<div class="fa fa-trash delete"
 				data-bind="event: { click: function(data, event) { $parent.delete($index()); event.stopPropagation(); } }"></div>
 		</div>
 	</div>
 
-     <!-- ダイアログ表示時の薄暗い背景 -->
+	<!-- ダイアログ表示時の薄暗い背景 -->
 	<div id="overlay" style="display: none;"
 		data-bind="style: { 'display': isOverlay() ? 'block' : 'none' }"></div>
-	
+
 	<!-- メッセージダイアログ -->
 	<div id="dialog" style="display: none;"
 		data-bind="style: { 'display': isShowDialog() ? 'block' : 'none' }">

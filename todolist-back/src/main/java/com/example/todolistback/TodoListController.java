@@ -18,60 +18,53 @@ import org.springframework.web.bind.annotation.ResponseBody;
 // リクエストを受け付けるクラスです。
 @Controller
 public class TodoListController {
-	
-	@Autowired
-	private TodoListService todoListService;
-	
-	// todolist.htmlファイルを返します。
-	@GetMapping
-	public String index() {
-		return "todolist";
-	}
-	
-	// TODOリストをtodolistテーブルに保存します。
-	@RequestMapping(
-			path = "/todolist",
-			method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public Object save(@RequestBody List<Todo> todoList, HttpServletResponse response) {
-		try {
-			todoListService.save(todoList);
-			return new HashMap<>();
-		} catch (Exception e) {
-			return handleException(e, response);
-		}
-	}
-	
-	// TODOリストをtodolistテーブルから取得して返します。
-	@RequestMapping(
-			path = "/todolist",
-			method = RequestMethod.GET,
-			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public Object findAll(HttpServletResponse response) {
-		try {
-			return todoListService.findAll();
-		} catch (Exception e) {
-			return handleException(e, response);
-		}
-	}
-	
-	// 例外を処理します。
-	static Map<String, String> handleException(Exception e, HttpServletResponse response) {
-		
-		Map<String, String> error = new HashMap<>();
-		
-		error.put("error", "system error.");
-		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		
-		if (e instanceof IllegalArgumentException) {
-			IllegalArgumentException iae = (IllegalArgumentException) e;
-			error.put("error", iae.getMessage());
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		}
-		
-		return error;
-	}
+
+    @Autowired
+    private TodoListService todoListService;
+
+    // todolist.htmlファイルを返します。
+    @GetMapping
+    public String index() {
+        return "todolist";
+    }
+
+    // TODOリストをtodolistテーブルに保存します。
+    @RequestMapping(path = "/todolist", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public Object save(@RequestBody List<Todo> todoList, HttpServletResponse response) {
+        try {
+            todoListService.save(todoList);
+            return new HashMap<>();
+        } catch (Exception e) {
+            return handleException(e, response);
+        }
+    }
+
+    // TODOリストをtodolistテーブルから取得して返します。
+    @RequestMapping(path = "/todolist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public Object findAll(HttpServletResponse response) {
+        try {
+            return todoListService.findAll();
+        } catch (Exception e) {
+            return handleException(e, response);
+        }
+    }
+
+    // 例外を処理します。
+    static Map<String, String> handleException(Exception e, HttpServletResponse response) {
+
+        Map<String, String> error = new HashMap<>();
+
+        error.put("error", "system error.");
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+        if (e instanceof IllegalArgumentException) {
+            IllegalArgumentException iae = (IllegalArgumentException) e;
+            error.put("error", iae.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+
+        return error;
+    }
 }
