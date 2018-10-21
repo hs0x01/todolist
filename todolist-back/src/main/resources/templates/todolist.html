@@ -1,15 +1,20 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=750">
-    <title>TODOリスト</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
-    <link rel="stylesheet" href="/css/todolist.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
-    <script src="/js/todolist.js"></script>
-    <script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=750">
+<title>TODOリスト</title>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" href="/css/todolist.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+<script src="/js/todolist.js"></script>
+<script>
 	    document.addEventListener('DOMContentLoaded', () => {
 	        let viewModel = new TodoListViewModel();
 	        viewModel.init(function() {
@@ -24,67 +29,102 @@
 	<h1 id="todo-title">TODOリスト</h1>
 
 	<div id="todo-add-save-block">
+
+		<!-- TODO追加ボタン -->
 		<div id="todo-add" class="fa fa-plus-circle" aria-hidden="true"
-	        data-bind="event: { 'click': function() { showTodoInput(); } }"></div>
-	
-	    <div id="todo-list-save" class="fa fa-save" aria-hidden="true"
-	        data-bind="event: { 'click': function() { save(); } }"></div>
+			data-bind="event: { 'click': function() { showTodoInput() } }"></div>
+
+		<!-- TODO保存ボタン -->
+		<div id="todo-list-save" class="fa fa-save" aria-hidden="true"
+			data-bind="event: { 'click': function() { save() } }"></div>
 	</div>
-    
-    <div id="todo-input" style="display: none;" data-bind="style: { 'display': isShowTodoInput() ? 'block' : 'none' }">
-        <div class="todo">
-            <div class="fa priority" aria-hidden="true"
-                data-bind="text: findPriority().label,
+
+	<!-- TODO入力欄 -->
+	<div id="todo-input" style="display: none;"
+		data-bind="style: { 'display': isShowTodoInput() ? 'block' : 'none' }">
+
+		<div class="todo">
+
+			<!-- 選択されている優先度 -->
+			<div class="fa priority" aria-hidden="true"
+				data-bind="text: findPriority().label,
                            css : findPriority().cls,
                            event: { 'click': function() { showPriorityMenu(true) } }"></div>
-            <div class="fa status" aria-hidden="true"
-                data-bind="text: findStatus().label,
+
+			<!-- 選択されているステータス -->
+			<div class="fa status" aria-hidden="true"
+				data-bind="text: findStatus().label,
                            css : findStatus().cls,
                            event: { 'click': function() { showStatusMenu(true) } }"></div>
-            <input type="text" class="content" data-bind="textInput: inputContent" />
 
-            <div id="priority-list" data-bind="style: { 'display': showPriorityMenu() ? 'block' : 'none' },
+			<!-- TODO内容 -->
+			<input type="text" class="content"
+				data-bind="textInput: inputContent" />
+
+			<!-- 優先度選択メニュー -->
+			<div id="priority-list"
+				data-bind="style: { 'display': showPriorityMenu() ? 'block' : 'none' },
                                                foreach: priorityDataList">
-                <div class="fa fa-exclamation-circle priority" aria-hidden="true"
-                    data-bind="event: { click: function() { $parent.selectPriority(val); } },
+				<div class="fa fa-exclamation-circle priority" aria-hidden="true"
+					data-bind="event: { click: function() { $parent.selectPriority(val) } },
                                text : $data.label,
                                css  : $data.cls"></div>
-            </div>
+			</div>
 
-            <div id="status-list" data-bind="style: { 'display': showStatusMenu() ? 'block' : 'none' },
+			<!-- ステータス選択メニュー -->
+			<div id="status-list"
+				data-bind="style: { 'display': showStatusMenu() ? 'block' : 'none' },
                                              foreach: statusDataList">
-                <div class="fa status" aria-hidden="true"
-                    data-bind="event: { click: function() { $parent.selectStatus(val); } },
+				<div class="fa status" aria-hidden="true"
+					data-bind="event: { click: function() { $parent.selectStatus(val) } },
                                text : $data.label,
                                css  : $data.cls"></div>
-            </div>
+			</div>
 
-            <div class="fa fa-check-circle finish" aria-hidden="true"
-                data-bind="css: { 'finish-disabled': !canAddOrUpdate() },
-                           event: { click: function() { addOrUpdate(); } } "></div>
-        </div>
-    </div>
+			<!-- 完了ボタン -->
+			<div class="fa fa-check-circle finish" aria-hidden="true"
+				data-bind="css: { 'finish-disabled': !canAddOrUpdate() },
+                           event: { click: function() { addOrUpdate() } } "></div>
+		</div>
+	</div>
 
-    <div id="todo-list" data-bind="foreach: todoList">
-        <div class="todo" data-bind="event: { 'click': function() { $parent.showTodoInput($index()); } }">
-            <div class="fa fa-exclamation-circle priority" aria-hidden="true"
-                data-bind="css: { 'priority-high'  : priority() === Priority.HIGH,
+	<!-- TODOリスト -->
+	<div id="todo-list" data-bind="foreach: todoList">
+		<div class="todo"
+			data-bind="event: { 'click': function() { $parent.showTodoInput($index()) } }">
+			
+			<!-- 優先度 -->
+			<div class="fa fa-exclamation-circle priority" aria-hidden="true"
+				data-bind="css: { 'priority-high'  : priority() === Priority.HIGH,
                                   'priority-middle': priority() === Priority.MIDDLE,
                                   'priority-low'   : priority() === Priority.LOW }"></div>
-            <div class="fa status" aria-hidden="true"
-                data-bind="css: { 'status-todo'                : status() === Status.TODO,
+             
+             <!-- ステータス -->
+			<div class="fa status" aria-hidden="true"
+				data-bind="css: { 'status-todo'                : status() === Status.TODO,
                                   'fa-spinner status-doing'    : status() === Status.DOING,
                                   'fa-check-circle status-done': status() === Status.DONE }"></div>
-            <div class="content"><span data-bind="text: content"></span></div>
-            <div class="fa fa-trash delete" data-bind="event: { click: function(data, event) { $parent.delete($index()); event.stopPropagation(); } }"></div>
-        </div>
-    </div>
+             
+             <!-- TODO内容 -->
+			<div class="content">
+				<span data-bind="text: content"></span>
+			</div>
+			
+			<!-- 削除ボタン -->
+			<div class="fa fa-trash delete"
+				data-bind="event: { click: function(data, event) { $parent.delete($index()); event.stopPropagation(); } }"></div>
+		</div>
+	</div>
 
-    <div id="overlay" style="display: none;" data-bind="style: { 'display': isOverlay() ? 'block' : 'none' }"></div>
-    
-    <div id="dialog" style="display: none;" data-bind="style: { 'display': isShowDialog() ? 'block' : 'none' }">
+     <!-- ダイアログ表示時の薄暗い背景 -->
+	<div id="overlay" style="display: none;"
+		data-bind="style: { 'display': isOverlay() ? 'block' : 'none' }"></div>
+	
+	<!-- メッセージダイアログ -->
+	<div id="dialog" style="display: none;"
+		data-bind="style: { 'display': isShowDialog() ? 'block' : 'none' }">
 		<div data-bind="text: dialogMessage"></div>
-		<button data-bind="event: { click: function() { closeDialog(); } }">OK</button>
+		<button data-bind="event: { click: function() { closeDialog() } }">OK</button>
 	</div>
 
 </body>
