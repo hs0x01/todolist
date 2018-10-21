@@ -31,7 +31,7 @@
 	        data-bind="event: { 'click': function() { save(); } }"></div>
 	</div>
     
-    <div id="todo-input" data-bind="style: { 'display': isShowTodoInput() ? 'block' : 'none' }">
+    <div id="todo-input" style="display: none;" data-bind="style: { 'display': isShowTodoInput() ? 'block' : 'none' }">
         <div class="todo">
             <div class="fa priority" aria-hidden="true"
                 data-bind="text: findPriority().label,
@@ -60,7 +60,7 @@
             </div>
 
             <div class="fa fa-check-circle finish" aria-hidden="true"
-                data-bind="enable: canAddOrUpdate(),
+                data-bind="css: { 'finish-disabled': !canAddOrUpdate() },
                            event: { click: function() { addOrUpdate(); } } "></div>
         </div>
     </div>
@@ -80,9 +80,9 @@
         </div>
     </div>
 
-    <div id="overlay" data-bind="style: { 'display': isOverlay() ? 'block' : 'none' }"></div>
+    <div id="overlay" style="display: none;" data-bind="style: { 'display': isOverlay() ? 'block' : 'none' }"></div>
     
-    <div id="dialog" data-bind="style: { 'display': isShowDialog() ? 'block' : 'none' }">
+    <div id="dialog" style="display: none;" data-bind="style: { 'display': isShowDialog() ? 'block' : 'none' }">
 		<div data-bind="text: dialogMessage"></div>
 		<button data-bind="event: { click: function() { closeDialog(); } }">OK</button>
 	</div>

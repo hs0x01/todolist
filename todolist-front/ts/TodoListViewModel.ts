@@ -70,6 +70,8 @@ class TodoListViewModel {
         this.isOverlay(true);
         this.isShowTodoInput(true);
         this.targetIdx(targetIdx);
+        this.showPriorityMenu(false);
+        this.showStatusMenu(false);
 
         if (targetIdx >= 0) {
 

@@ -2,7 +2,7 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", YuGothic, "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, "メイリオ", Meiryo, sans-serif;
-    background: #d0d0d0;
+    background: #ffffff;
     color: #000000;
 }
 
@@ -31,7 +31,7 @@ body {
     }
 
     .priority-middle {
-        color: #ffff00;
+        color: #D7DF01;
     }
 
     .priority-low {
@@ -46,7 +46,7 @@ body {
     }
 
     .status-doing {
-        color: #ffff00;
+        color: #D7DF01;
     }
 
     .status-done {
@@ -62,6 +62,7 @@ body {
         height: 50px;
         font-size: 24px;
         margin-bottom: 10px;
+        cursor: pointer;
 
         .priority-mixin;
 
@@ -130,7 +131,7 @@ body {
     width: 750px;
     height: 50px;
     margin: auto;
-    background: #d0d0d0;
+    background: #ffffff;
     z-index: 1;
 
     .todo-mixin;
@@ -156,7 +157,7 @@ body {
                 position: relative;
                 width: 50px;
                 border: solid 1px #000000;
-                background: #d0d0d0;
+                background: #ffffff;
                 padding: 1px;
                 z-index: 1;
             }
@@ -175,7 +176,7 @@ body {
                 position: relative;
                 width: 100px;
                 border: solid 1px #000000;
-                background: #d0d0d0;
+                background: #ffffff;
                 padding: 1px;
                 z-index: 1;
             }
@@ -186,7 +187,7 @@ body {
             top: 5%;
             width: 520px;
             height: 80%;
-            background: #d0d0d0;
+            background: #ffffff;
             border: solid 1px #000000;
         }
         
@@ -198,6 +199,10 @@ body {
             transform: translateY(-50%);
             .pseudo-class-mixin;
         }
+
+        .finish-disabled {
+            color: #d0d0d0;
+        }
     }
 }
 
@@ -206,9 +211,11 @@ body {
     top: 150px;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 20px;
     width: 750px;
     margin: auto;
+    overflow-x: hidden;
+    overflow-y: scroll;
 
     .todo-mixin;
 }
@@ -225,10 +232,6 @@ body {
     border: solid 1px #000000;
     background: #ffffff;
     padding: 10px;
-
-    > div {
-        
-    }
 
     > button {
         position: absolute;
