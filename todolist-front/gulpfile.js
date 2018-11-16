@@ -10,7 +10,6 @@ const gulpLess  = require('gulp-less');
 const del       = require('del');
 const plumber   = require('gulp-plumber');
 const color     = require('cli-color');
-const fs        = require('fs');
 
 // ----------------------------------------------------------------------------
 //   定数
